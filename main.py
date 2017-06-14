@@ -1,12 +1,14 @@
 from pprint import pprint
 
-#Это метод выполняется за меньше итераций, но очень много кода(sory):)
+#Этод метод выполняется за меньше итераций, но очень много кода(sory):)
 def update(data, service, count):
     sum_gin,sum_cuc = sum(data['ginger'].values()),sum(data['cucumber'].values())
+    # проверки на вхождение сервиса в кластер
     if service not in data['ginger']:
         data['ginger'][service] = 0
     if service not in data['cucumber']:
         data['cucumber'][service] = 0
+    # случай когда сумма в двух кластерах одинакова(просто добавляем половину)
     if sum_gin == sum_cuc:
         count1 = count//2
         data['ginger'][service] += count1
@@ -14,6 +16,8 @@ def update(data, service, count):
             data['cucumber'][service] += count1+1
         else:
             data['cucumber'][service] += count1
+        """ случай когда сумма разная, 
+        добавляем разницу для равности рекурсивно возвращемся к случае при равности"""
     else:
         if sum_gin > sum_cuc:
             pre_count = count - (count - (sum_gin - sum_cuc))
